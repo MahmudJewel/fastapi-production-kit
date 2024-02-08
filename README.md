@@ -129,6 +129,15 @@ Once `pip` has finished downloading the dependencies:
     python-jose
     alembic
 
-# Happy Coding
-## From ==> Mahmud
+# **warning!!!**
+* Do not use the same secret key that I provided.
+* Always use new secret key for each project 
+* The command will generate new secret key.
+```sh
+openssl rand -hex 32
+```
+
+#Happy Coding
+
+From ==> **Mahmud**
 
