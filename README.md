@@ -1,4 +1,4 @@
-# FastAPI Starter Kit
+# FastAPI Production Kit
 ## Features:
 * FastAPI project structure tree
 * user module
@@ -6,7 +6,10 @@
 * admin dashboard => sqladmin
 * authentication => JWT
 * db migration => alembic
-* CORS middleware
+* middleware
+* three types of server
+    - production, development, test
+* UUID as primary key
 
 ## Structured Tree
 ```sh
@@ -70,12 +73,12 @@
 # Setup
 The first thing to do is to clone the repository:
 ```sh
-$ https://github.com/MahmudJewel/fastapi-starter-kit
+$ https://github.com/MahmudJewel/fastapi-production-kit
 ```
 
 Create a virtual environment to install dependencies in and activate it:
 ```sh
-$ cd fastapi-starter-kit
+$ cd fastapi-production-kit
 $ python -m venv venv
 $ source venv/bin/activate
 ```

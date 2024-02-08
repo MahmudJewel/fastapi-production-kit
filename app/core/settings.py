@@ -20,7 +20,7 @@ class BaseConfig(BaseSettings):
 class Config(BaseConfig):
     DEBUG: int = 0
     DEFAULT_LOCALE: str = "en_US"
-    ENVIRONMENT: str = EnvironmentType.PRODUCTION
+    ENVIRONMENT: str = EnvironmentType.DEVELOPMENT
     # REDIS_URL: RedisDsn = "redis://localhost:6379/7"
     RELEASE_VERSION: str = "0.1"
     SHOW_SQL_ALCHEMY_QUERIES: int = 0

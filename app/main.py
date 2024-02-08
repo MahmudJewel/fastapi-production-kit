@@ -9,8 +9,8 @@ from app.core.modules import init_routers, make_middleware
 
 def create_app() -> FastAPI:
     app_ = FastAPI(
-        title="FastAPI kit for production",
-        description="FastAPI kit by Mahmud",
+        title="FastAPI kit for production level.",
+        description="FastAPI kit that can be your helping hand for production level server. The repo is developed with 💗 by mahmud.",
         version="1.0.0",
         docs_url=None if config.ENVIRONMENT == "production" else "/docs",
         redoc_url=None if config.ENVIRONMENT == "production" else "/redoc",
