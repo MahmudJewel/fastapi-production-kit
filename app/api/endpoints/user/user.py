@@ -38,7 +38,7 @@ async def read_all_user( skip: int = 0, limit: int = 100,  db: Session = Depends
             response_model=User,
             # dependencies=[Depends(RoleChecker(['admin']))]
             )
-async def read_user_by_id( user_id: int, db: Session = Depends(get_db)):
+async def read_user_by_id( user_id: str, db: Session = Depends(get_db)):
     return user_functions.get_user_by_id(db, user_id)
 
 # update user
@@ -46,16 +46,18 @@ async def read_user_by_id( user_id: int, db: Session = Depends(get_db)):
               response_model=User,
             #   dependencies=[Depends(RoleChecker(['admin']))]
               )
-async def update_user( user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
+async def update_user( user_id: str, user: UserUpdate, db: Session = Depends(get_db)):
     print(f"Received data: {user.model_dump()}")
     return user_functions.update_user(db, user_id, user)
 
 # delete user
 @user_module.delete('/{user_id}', 
-               response_model=User,
+            #    response_model=User,
             #    dependencies=[Depends(RoleChecker(['admin']))]
                )
-async def update_user( user_id: int, db: Session = Depends(get_db)):
-    return user_functions.delete_user(db, user_id)
+async def delete_user( user_id: str, db: Session = Depends(get_db)):
+    deleted_user = user_functions.delete_user(db, user_id)
+    
+    return deleted_user
 
 

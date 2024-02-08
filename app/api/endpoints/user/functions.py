@@ -53,12 +53,12 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
     return db_user
 
 # delete user
-def delete_user(db: Session, user_id: int):
+def delete_user(db: Session, user_id: str):
     db_user = get_user_by_id(db, user_id)
     db.delete(db_user)
     db.commit()
     # db.refresh(db_user)
-    return db_user
+    return {"msg": f"{db_user.email} deleted successfully"}
 
 # =====================> login/logout <============================
 def verify_password(plain_password, hashed_password):
