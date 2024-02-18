@@ -10,10 +10,10 @@ class UserRole(str, PythonEnum):
 class User(CommonModel):
 	__tablename__ = "users"
 
-	email = Column(String, unique=True, index=True)
-	password = Column(String)
-	first_name = Column(String, nullable=True)
-	last_name = Column(String, nullable=True)
+	email = Column(String(50), unique=True, index=True)
+	password = Column(String(50))
+	first_name = Column(String(50), nullable=True)
+	last_name = Column(String(50), nullable=True)
 	role = Column(Enum(UserRole), default=UserRole.user)
 
 metadata = Base.metadata

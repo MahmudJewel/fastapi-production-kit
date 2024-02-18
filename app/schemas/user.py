@@ -7,9 +7,9 @@ class UserBase(BaseModel):
 	email: str
 
 class UserCreate(UserBase):
+	password: str
 	first_name: str or None = None
 	last_name: str or None = None
-	password: str
 
 class UserLogin(UserBase):
 	password: str
