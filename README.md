@@ -1,4 +1,19 @@
 # FastAPI Production Kit
+<p>
+    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+        <img src="https://img.shields.io/github/forks/MahmudJewel/fastapi-production-kit.svg?style=social&label=Fork" />
+    </a>
+    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+        <img src="https://img.shields.io/github/stars/MahmudJewel/fastapi-production-kit.svg?style=social&label=Stars" />
+    </a>
+    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+        <img src="https://img.shields.io/nuget/dt/Azylee.Core.svg" />
+    </a>
+</p>
+<a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+    Click here to download/fork the repository
+</a>
+
 ## Features:
 * FastAPI project structure tree
 * user module
@@ -41,7 +56,7 @@
 │   │   ├── common.py
 │   │   ├── __init__.py
 │   │   └── user.py
-│   ├── schemas
+│   ├── schemas    # Pydantic model for data validation
 │   │   ├── __init__.py
 │   │   └── user.py
 │   └── utils       # Can include utility functions that are used across different features.
