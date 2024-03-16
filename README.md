@@ -11,13 +11,12 @@ A production based FastAPI template
         <img src="https://img.shields.io/nuget/dt/Azylee.Core.svg" />
     </a>
 </p>
+<p>
+    If the repo is helpful for you, please give a star and fork it.
+</p>
 <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
     Click here to download/fork the repository
 </a>
-
-<p>
-    If the repo will help you, please give a star and fork it.
-</p>
 
 ## Features:
 * FastAPI project structure tree
