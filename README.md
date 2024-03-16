@@ -156,5 +156,7 @@ Once `pip` has finished downloading the dependencies:
 openssl rand -hex 32
 ```
 
-# Happy Coding
+For practicing level project, Please follow this repo https://github.com/MahmudJewel/fastapi-starter-kit
+
+### Happy Coding
 
