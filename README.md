@@ -1,4 +1,5 @@
 # FastAPI Production Kit
+A production based FastAPI template
 <p>
     <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
         <img src="https://img.shields.io/github/forks/MahmudJewel/fastapi-production-kit.svg?style=social&label=Fork" />
@@ -13,6 +14,10 @@
 <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
     Click here to download/fork the repository
 </a>
+
+<p>
+    If the repo will help you, please give a star and fork it.
+</p>
 
 ## Features:
 * FastAPI project structure tree
@@ -152,7 +157,5 @@ Once `pip` has finished downloading the dependencies:
 openssl rand -hex 32
 ```
 
-#Happy Coding
-
-From ==> **Mahmud**
+# Happy Coding
 
