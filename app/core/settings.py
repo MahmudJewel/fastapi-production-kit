@@ -3,8 +3,10 @@ from pydantic_settings import BaseSettings
 from enum import Enum 
 
 SECRET_KEY = "4f400364dc36a8bd1895874efe0b7469f29e7ed863ec903c5f10d8e82dc7c4d9"
+REFRESH_SECRET_KEY = "b7f01fe0c8c0f182a048963d7eb05e177f3a893963c8eed58b16ce2fef7c50e5"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60*24*7
+ACCESS_TOKEN_EXPIRE_MINUTES = 60*24*7 # 1day
+REFRESH_TOKEN_EXPIRE_DAYS = 7 # 7 day
 
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"

@@ -32,8 +32,9 @@ class UserUpdate(BaseModel):
 	role: UserRole or None = None
 
 class Token(BaseModel):
-    access_token: str
-    token_type: str
+	access_token: str
+	refresh_token: str
+	token_type: str
 
 
 
