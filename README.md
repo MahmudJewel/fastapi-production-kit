@@ -29,6 +29,7 @@ A production based FastAPI template
 * three types of server
     - production, development, test
 * UUID as primary key
+* Applied RBAC(Role Based Access Control)
 
 ## Structured Tree
 ```sh
@@ -119,17 +120,18 @@ Once `pip` has finished downloading the dependencies:
 ```
 
 ## User module's API
-| SRL | METHOD | ROUTE | FUNCTIONALITY | Fields | 
-| ------- | ------- | ----- | ------------- | ------------- |
-| *1* | *POST* | ```/login``` | _Login user_| _**email**, **password**_|
-| *2* | *POST* | ```/users/``` | _Create new user_|_**email**, **password**, first name, last name_|
-| *3* | *GET* | ```/users/``` | _Get all users list_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|
-| *4* | *GET* | ```/users/me/``` | _Get current user details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|
-| *5* | *GET* | ```/users/{user_id}``` | _Get indivisual users details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|
-| *6* | *PATCH* | ```/users/{user_id}``` | _Update the user partially_|_email, password, is_active, role_|
-| *7* | *DELETE* | ```/users/{user_id}``` | _Delete the user_|_None_|
-| *8* | *GET* | ```/``` | _Home page_|_None_|
-| *9* | *GET* | ```/admin``` | _Admin Dashboard_|_None_|
+| SRL | METHOD | ROUTE | FUNCTIONALITY | Fields | Access | 
+| ------- | ------- | ----- | ------------- | ------------- |------------- |
+| *1* | *POST* | ```/login``` | _Login user_| _**email**, **password**_| _All User_|
+| *2* | *POST* | ```/refresh/?refresh_token=``` | _Refresh access token_| _None_| _All User_|
+| *3* | *POST* | ```/users/``` | _Create new user_|_**email**, **password**, first name, last name_| _Anyone_|
+| *4* | *GET* | ```/users/``` | _Get all users list_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Admin_|
+| *5* | *GET* | ```/users/me/``` | _Get current user details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Any User_|
+| *6* | *GET* | ```/users/{user_id}``` | _Get indivisual users details_|_email, password, first name, last name, role, is_active, created_at, updated_at, id_|_Any User_|
+| *7* | *PATCH* | ```/users/{user_id}``` | _Update the user partially_|_email, password, is_active, role_|_Admin_|
+| *8* | *DELETE* | ```/users/{user_id}``` | _Delete the user_|_None_|_Admin_|
+| *9* | *GET* | ```/``` | _Home page_|_None_|_Anyone_|
+| *10* | *GET* | ```/admin``` | _Admin Dashboard_|_None_|_Anyone_|
 
 
 # Tools
