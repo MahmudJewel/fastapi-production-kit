@@ -30,6 +30,7 @@ A production based FastAPI template
     - production, development, test
 * UUID as primary key
 * Applied RBAC(Role Based Access Control)
+* Applied google auth(OAuth2)
 
 ## Structured Tree
 ```sh
@@ -91,18 +92,18 @@ A production based FastAPI template
 
 
 # Setup
-The first thing to do is to clone the repository:
+1. The first thing to do is to clone the repository:
 ```sh
 $ https://github.com/MahmudJewel/fastapi-production-kit
 ```
 
-Create a virtual environment to install dependencies in and activate it:
+2. Create a virtual environment to install dependencies in and activate it:
 ```sh
 $ cd fastapi-production-kit
 $ python -m venv venv
 $ source venv/bin/activate
 ```
-Then install the dependencies:
+3. Then install the dependencies:
 ```sh
 # for fixed version
 (venv)$ pip install -r requirements.txt
@@ -112,10 +113,15 @@ Then install the dependencies:
 ```
 Note the `(venv)` in front of the prompt. This indicates that this terminal
 session operates in a virtual environment set up by `virtualenv2`.
+4. Now rename **.env.example** to **.env** and give the information on the .env file.
 
-Once `pip` has finished downloading the dependencies:
+5. Migrate the database:
 ```sh
 (venv)$ alembic upgrade head
+(venv)$ uvicorn app.main:app --reload
+```
+6. Then Run the project
+```sh
 (venv)$ uvicorn app.main:app --reload
 ```
 
@@ -133,6 +139,10 @@ Once `pip` has finished downloading the dependencies:
 | *9* | *GET* | ```/``` | _Home page_|_None_|_Anyone_|
 | *10* | *GET* | ```/admin``` | _Admin Dashboard_|_None_|_Anyone_|
 
+## OAuth2 - Social Auth
+| SRL | METHOD | ROUTE | FUNCTIONALITY | Fields | Access | 
+| ------- | ------- | ----- | ------------- | ------------- |------------- |
+| *1* | *GET* | ```/social/google/login``` | _Login by google| _None_| _Anyone_|
 
 # Tools
 ### Back-end

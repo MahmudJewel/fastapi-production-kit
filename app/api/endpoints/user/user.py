@@ -20,7 +20,7 @@ user_module = APIRouter()
 # create new user 
 @user_module.post('/', response_model=User)
 async def create_new_user(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = user_functions.get_user_by_email(db, user.email)
+    db_user = await user_functions.get_user_by_email(db, user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="User already exists")
     new_user = user_functions.create_new_user(db, user)
