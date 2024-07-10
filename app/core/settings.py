@@ -13,7 +13,7 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7 # 7 day
 
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
-REDIRECT_URI = "http://127.0.0.1:8000/auth/google/callback"
+REDIRECT_URI = "http://127.0.0.1:8000/social/auth/google/callback"
 
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"

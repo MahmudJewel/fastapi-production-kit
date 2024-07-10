@@ -1,13 +1,17 @@
 # fastapi 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Depends
+# sqlalchemy
+from sqlalchemy.orm import Session
 
 # auth google 
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-from fastapi.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuth
 
 # import 
+from app.core.dependencies import get_db
+from app.models import user as UserModel
+from app.api.endpoints.user import functions as user_functions
 from app.core.settings import (
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -27,21 +31,61 @@ oauth.register(
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     refresh_token_url=None,
-    redirect_uri='http://127.0.0.1:8000/auth/google/callback',
+    redirect_uri=REDIRECT_URI,
     client_kwargs={'scope': 'openid profile email'},
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs', # added
 )
 
 # ============================> signin using google <========================
 @social_auth_module.get('/google/login')
 async def login(request: Request):
     redirect_uri = request.url_for('auth_callback')
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    print(f"Redirect URI=========================>: {redirect_uri}")
+    response = await oauth.google.authorize_redirect(request, redirect_uri)
+    return response
 
-@social_auth_module.route('/auth/google/callback') # path will be same as redirect url
-async def auth_callback(request: Request):
+@social_auth_module.get('/auth/google/callback') # path will be same as redirect url
+async def auth_callback(request: Request, db: Session = Depends(get_db)):
     token = await oauth.google.authorize_access_token(request)
-    user = await oauth.google.parse_id_token(request, token)
-    return JSONResponse(user)
+    # google = oauth.create_client('google')
+    # token = await google.authorize_access_token(request)
+    if 'id_token' not in token:
+        raise HTTPException(status_code=400, detail="Missing id_token in response")
+    # user = await oauth.google.parse_id_token(request, token)
+    # user_info = await oauth.google.parse_id_token(request, token)
+    # ===> no need to parse_id_token. starlet will do parse_id_token automatically. 
+    user_info = token['userinfo']
+    # Extract user information
+    email = user_info['email']
+    first_name = user_info.get('given_name')
+    last_name = user_info.get('family_name')
+    is_verified = user_info.get('email_verified', False)
+    print(f"user info ===================> {user_info}")
+    # Check if user already exists
+    user = await user_functions.get_user_by_email(db=db, email=email)
+    # user = db.query(UserModel.User).filter(UserModel.User.email == email).first()
+    if user is None:
+        # Create a new user
+        user = UserModel.User(
+            email=email,
+            first_name=first_name,
+            last_name=last_name
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        # Update existing user
+        user.first_name = first_name
+        user.last_name = last_name
+        db.commit()
+
+    return JSONResponse({
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'is_verified': is_verified
+    })
 
 # @auth_module.get('/protected')
 # async def protected(user: dict = Depends(oauth.google.authorize_user)):

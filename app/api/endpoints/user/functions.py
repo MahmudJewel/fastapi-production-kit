@@ -19,7 +19,7 @@ from app.schemas.user import Token
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # get user by email 
-def get_user_by_email(db: Session, email: str):
+async def get_user_by_email(db: Session, email: str):
     return db.query(UserModel.User).filter(UserModel.User.email == email).first()
 
 # get user by id

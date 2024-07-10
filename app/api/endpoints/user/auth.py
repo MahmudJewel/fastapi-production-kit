@@ -3,12 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Annotated
 from datetime import timedelta
 
-# # auth google 
-# from starlette.requests import Request
-# from starlette.responses import JSONResponse
-# from fastapi.responses import RedirectResponse
-# from authlib.integrations.starlette_client import OAuth
-
 # sqlalchemy
 from sqlalchemy.orm import Session
 
@@ -18,29 +12,11 @@ from app.core.dependencies import get_db
 from app.core.settings import (
     ACCESS_TOKEN_EXPIRE_MINUTES, 
     REFRESH_TOKEN_EXPIRE_DAYS,
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    REDIRECT_URI,
     )
 from app.api.endpoints.user import functions as user_functions
 
 
 auth_module = APIRouter()
-
-# # google ========================
-# oauth = OAuth()
-# oauth.register(
-#     name='google',
-#     client_id=GOOGLE_CLIENT_ID,
-#     client_secret=GOOGLE_CLIENT_SECRET,
-#     authorize_url='https://accounts.google.com/o/oauth2/auth',
-#     authorize_params=None,
-#     access_token_url='https://accounts.google.com/o/oauth2/token',
-#     access_token_params=None,
-#     refresh_token_url=None,
-#     redirect_uri='http://127.0.0.1:8000/auth/google/callback',
-#     client_kwargs={'scope': 'openid profile email'},
-# )
 
 # ============> login/logout < ======================
 # getting access token for login 
@@ -77,23 +53,5 @@ async def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)
 @auth_module.get('/users/me/', response_model= User)
 async def read_current_user( current_user: Annotated[User, Depends(user_functions.get_current_user)]):
     return current_user
-
-
-# # ============================> signin using google <========================
-# @auth_module.get('/google/login')
-# async def login(request: Request):
-#     redirect_uri = request.url_for('auth_callback')
-#     return await oauth.google.authorize_redirect(request, redirect_uri)
-
-# @auth_module.route('/auth/google/callback') # path will be same as redirect url
-# async def auth_callback(request: Request):
-#     token = await oauth.google.authorize_access_token(request)
-#     user = await oauth.google.parse_id_token(request, token)
-#     return JSONResponse(user)
-
-# # @auth_module.get('/protected')
-# # async def protected(user: dict = Depends(oauth.google.authorize_user)):
-# #     return {'message': 'This is a protected route', 'user': user}
-
 
 

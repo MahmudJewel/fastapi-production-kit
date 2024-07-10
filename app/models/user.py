@@ -11,7 +11,7 @@ class User(CommonModel):
 	__tablename__ = "users"
 
 	email = Column(String(50), unique=True, index=True)
-	password = Column(String(50))
+	password = Column(String(50), nullable=True) # nullable=True for social auth(OAuth2)
 	first_name = Column(String(50), nullable=True)
 	last_name = Column(String(50), nullable=True)
 	role = Column(Enum(UserRole), default=UserRole.user)
