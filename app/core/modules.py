@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from typing import List
 
 # sqlalchemy
@@ -10,8 +11,8 @@ from sqladmin import Admin, ModelView
 # import 
 from app.core.database import engine
 from app.models.admin import UserAdmin
-from app.api.routers.api import router
-from app.core.settings import config
+from app.api.routers.all_api import router
+from app.core.settings import config, SECRET_KEY
 
 def init_routers(app_: FastAPI) -> None:
     app_.include_router(router)
@@ -38,6 +39,10 @@ def make_middleware() -> List[Middleware]:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
+        ),
+        Middleware(
+            SessionMiddleware,
+            secret_key=SECRET_KEY
         ),
         # Middleware(SQLAlchemyMiddleware),
     ]

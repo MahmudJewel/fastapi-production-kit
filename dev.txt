@@ -27,3 +27,7 @@ typing_extensions
 uvicorn
 WTForms
 pydantic_settings
+python-dotenv
+authlib
+httpx
+itsdangerous 
