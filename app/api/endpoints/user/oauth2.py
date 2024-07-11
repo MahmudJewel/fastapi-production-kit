@@ -1,5 +1,7 @@
 # fastapi 
 from fastapi import APIRouter, HTTPException, Depends
+from datetime import timedelta
+
 # sqlalchemy
 from sqlalchemy.orm import Session
 
@@ -17,7 +19,11 @@ from app.core.settings import (
     GOOGLE_CLIENT_SECRET,
     REDIRECT_URI,
     )
-
+from app.schemas.user import Token
+from app.core.settings import (
+    ACCESS_TOKEN_EXPIRE_MINUTES, 
+    REFRESH_TOKEN_EXPIRE_DAYS,
+    )
 social_auth_module = APIRouter()
 
 # google ========================
@@ -80,12 +86,23 @@ async def auth_callback(request: Request, db: Session = Depends(get_db)):
         user.last_name = last_name
         db.commit()
 
-    return JSONResponse({
-        'email': user.email,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'is_verified': is_verified
-    })
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = user_functions.create_access_token(
+        data={"id": user.id, "email": user.email, "role": user.role}, expires_delta=access_token_expires
+    )
+    
+    refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    refresh_token = await user_functions.create_refresh_token(
+        data={"id": user.id, "email": user.email, "role": user.role}, 
+        expires_delta=refresh_token_expires
+    )
+    return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
+    # return JSONResponse({
+    #     'email': user.email,
+    #     'first_name': user.first_name,
+    #     'last_name': user.last_name,
+    #     'is_verified': is_verified
+    # })
 
 # @auth_module.get('/protected')
 # async def protected(user: dict = Depends(oauth.google.authorize_user)):
