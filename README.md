@@ -142,7 +142,8 @@ session operates in a virtual environment set up by `virtualenv2`.
 ## OAuth2 - Social Auth
 | SRL | METHOD | ROUTE | FUNCTIONALITY | Fields | Access | 
 | ------- | ------- | ----- | ------------- | ------------- |------------- |
-| *1* | *GET* | ```/social/google/login``` | _Login by google| _None_| _Anyone_|
+| *1* | *GET* | ```/social/google/login``` | _Login by google_| _None_| _Anyone_|
+| *2* | *GET* | ```/social/auth/google/callback``` | _Callback for google_| _None_| _Anyone_|
 
 # Tools
 ### Back-end
