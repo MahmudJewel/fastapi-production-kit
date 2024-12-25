@@ -122,7 +122,10 @@ session operates in a virtual environment set up by `virtualenv2`.
 ```
 6. Then Run the project
 ```sh
-(venv)$ uvicorn app.main:app --reload
+# start the server
+(venv)$ uvicorn app.main:app --reload # using directly uvicorn ==> old one => before version 0.100.0
+or
+(venv)$ fastapi dev app/main.py # using fastapi CLI ==> after version 0.100.0
 ```
 
 ## User module's API
