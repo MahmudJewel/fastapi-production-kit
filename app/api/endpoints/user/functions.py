@@ -66,8 +66,8 @@ def delete_user(db: Session, user_id: str):
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-def authenticate_user(db: Session, user: UserCreate):
-    member = get_user_by_email(db, user.email)
+async def authenticate_user(db: Session, user: UserCreate):
+    member = await get_user_by_email(db, user.email)
     if not member:
         return False
     if not verify_password(user.password, member.password):
@@ -114,7 +114,7 @@ async def refresh_access_token(db: Session, refresh_token: str):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
 # get current users info 
-def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
@@ -126,7 +126,7 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotate
         current_email: str = payload.get("email")
         if current_email is None:
             raise credentials_exception
-        user = get_user_by_email(db, current_email)
+        user = await get_user_by_email(db, current_email)
         if user is None:
             raise credentials_exception
         return user

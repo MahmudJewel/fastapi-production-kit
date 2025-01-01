@@ -25,7 +25,7 @@ async def login_for_access_token(
     user: UserLogin,
     db: Session = Depends(get_db)
 ) -> Token:
-    member = user_functions.authenticate_user(db, user=user)
+    member = await user_functions.authenticate_user(db, user=user)
     if not member:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
