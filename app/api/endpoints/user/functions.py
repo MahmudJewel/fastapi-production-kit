@@ -11,9 +11,8 @@ from jose import JWTError, jwt
 # import 
 from app.models import user as UserModel
 from app.schemas.user import UserCreate, UserUpdate
-from app.core.settings import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM
+from app.utils.env import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS
 from app.core.dependencies import get_db, oauth2_scheme
-from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.schemas.user import Token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -104,7 +103,7 @@ async def refresh_access_token(db: Session, refresh_token: str):
         member = await get_user_by_id(db, user_id)
         if member is None:
             raise HTTPException(status_code=401, detail="Invalid refresh token")
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
         access_token =  create_access_token(
             data={"id": member.id, "email": member.email, "role": member.role},
             expires_delta=access_token_expires

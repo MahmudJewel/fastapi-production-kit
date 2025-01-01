@@ -14,16 +14,14 @@ from authlib.integrations.starlette_client import OAuth
 from app.core.dependencies import get_db
 from app.models import user as UserModel
 from app.api.endpoints.user import functions as user_functions
-from app.core.settings import (
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    REDIRECT_URI,
-    )
 from app.schemas.user import Token
-from app.core.settings import (
-    ACCESS_TOKEN_EXPIRE_MINUTES, 
-    REFRESH_TOKEN_EXPIRE_DAYS,
-    )
+from app.utils.env import (
+    ACCESS_TOKEN_EXPIRE_DAYS, 
+    REFRESH_TOKEN_EXPIRE_DAYS, 
+    GOOGLE_CLIENT_ID, 
+    GOOGLE_CLIENT_SECRET, 
+    REDIRECT_URI
+    ) 
 social_auth_module = APIRouter()
 
 # google ========================
@@ -86,7 +84,7 @@ async def auth_callback(request: Request, db: Session = Depends(get_db)):
         user.last_name = last_name
         db.commit()
 
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
     access_token = user_functions.create_access_token(
         data={"id": user.id, "email": user.email, "role": user.role}, expires_delta=access_token_expires
     )
