@@ -1,20 +1,20 @@
 # FastAPI Production Kit
 A production based FastAPI template
 <p>
-    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
-        <img src="https://img.shields.io/github/forks/MahmudJewel/fastapi-production-kit.svg?style=social&label=Fork" />
+    <a href="https://github.com/MahmudJewel/fastapi-production-boilerplate/fork">
+        <img src="https://img.shields.io/github/forks/MahmudJewel/fastapi-production-boilerplate.svg?style=social&label=Fork" />
     </a>
-    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
-        <img src="https://img.shields.io/github/stars/MahmudJewel/fastapi-production-kit.svg?style=social&label=Stars" />
+    <a href="https://github.com/MahmudJewel/fastapi-production-boilerplate/fork">
+        <img src="https://img.shields.io/github/stars/MahmudJewel/fastapi-production-boilerplate.svg?style=social&label=Stars" />
     </a>
-    <a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+    <a href="https://github.com/MahmudJewel/fastapi-production-boilerplate/fork">
         <img src="https://img.shields.io/nuget/dt/Azylee.Core.svg" />
     </a>
 </p>
 <p>
     If the repo is helpful for you, please give a star and fork it.
 </p>
-<a href="https://github.com/MahmudJewel/fastapi-production-kit/fork">
+<a href="https://github.com/MahmudJewel/fastapi-production-boilerplate/fork">
     Click here to download/fork the repository
 </a>
 
@@ -94,12 +94,12 @@ A production based FastAPI template
 # Setup
 1. The first thing to do is to clone the repository:
 ```sh
-$ https://github.com/MahmudJewel/fastapi-production-kit
+$ https://github.com/MahmudJewel/fastapi-production-boilerplate
 ```
 
 2. Create a virtual environment to install dependencies in and activate it:
 ```sh
-$ cd fastapi-production-kit
+$ cd fastapi-production-boilerplate
 $ python -m venv venv
 $ source venv/bin/activate
 ```
@@ -172,7 +172,6 @@ or
 openssl rand -hex 32
 ```
 
-For practicing level project, Please follow this repo https://github.com/MahmudJewel/fastapi-starter-kit
+For practicing level project, Please follow this repo https://github.com/MahmudJewel/fastapi-starter-boilerplate
 
 ### Happy Coding
-
