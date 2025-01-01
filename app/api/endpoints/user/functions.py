@@ -44,8 +44,8 @@ def read_all_user(db: Session, skip: int, limit: int):
     return db.query(UserModel.User).offset(skip).limit(limit).all()
 
 # update user
-def update_user(db: Session, user_id: int, user: UserUpdate):
-    db_user = get_user_by_id(db, user_id)
+async def update_user(db: Session, user_id: int, user: UserUpdate):
+    db_user = await get_user_by_id(db, user_id)
     updated_data = user.model_dump(exclude_unset=True) # partial update
     for key, value in updated_data.items():
         setattr(db_user, key, value)
@@ -55,8 +55,8 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
     return db_user
 
 # delete user
-def delete_user(db: Session, user_id: str):
-    db_user = get_user_by_id(db, user_id)
+async def delete_user(db: Session, user_id: str):
+    db_user = await get_user_by_id(db, user_id)
     db.delete(db_user)
     db.commit()
     # db.refresh(db_user)
