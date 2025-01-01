@@ -9,12 +9,8 @@ from sqlalchemy.orm import Session
 # import
 from app.schemas.user import User, UserLogin, Token
 from app.core.dependencies import get_db
-from app.core.settings import (
-    ACCESS_TOKEN_EXPIRE_MINUTES, 
-    REFRESH_TOKEN_EXPIRE_DAYS,
-    )
 from app.api.endpoints.user import functions as user_functions
-
+from app.utils.env import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS, REFRESH_TOKEN_EXPIRE_DAYS
 
 auth_module = APIRouter()
 
@@ -25,14 +21,14 @@ async def login_for_access_token(
     user: UserLogin,
     db: Session = Depends(get_db)
 ) -> Token:
-    member = user_functions.authenticate_user(db, user=user)
+    member = await user_functions.authenticate_user(db, user=user)
     if not member:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
     access_token = user_functions.create_access_token(
         data={"id": member.id, "email": member.email, "role": member.role}, expires_delta=access_token_expires
     )

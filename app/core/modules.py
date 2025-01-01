@@ -11,8 +11,9 @@ from sqladmin import Admin, ModelView
 # import 
 from app.core.database import engine
 from app.models.admin import UserAdmin
-from app.api.routers.all_api import router
-from app.core.settings import config, SECRET_KEY
+from app.api.routers.main_router import router
+from app.core.settings import config
+from app.utils.env import SECRET_KEY
 
 def init_routers(app_: FastAPI) -> None:
     app_.include_router(router)
@@ -21,7 +22,6 @@ def init_routers(app_: FastAPI) -> None:
         pass
     else:
     	admin.add_view(UserAdmin)
-
 
 origins = [
     "*",

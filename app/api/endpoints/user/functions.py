@@ -11,9 +11,8 @@ from jose import JWTError, jwt
 # import 
 from app.models import user as UserModel
 from app.schemas.user import UserCreate, UserUpdate
-from app.core.settings import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM
+from app.utils.env import SECRET_KEY, REFRESH_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS
 from app.core.dependencies import get_db, oauth2_scheme
-from app.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.schemas.user import Token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -44,8 +43,8 @@ def read_all_user(db: Session, skip: int, limit: int):
     return db.query(UserModel.User).offset(skip).limit(limit).all()
 
 # update user
-def update_user(db: Session, user_id: int, user: UserUpdate):
-    db_user = get_user_by_id(db, user_id)
+async def update_user(db: Session, user_id: int, user: UserUpdate):
+    db_user = await get_user_by_id(db, user_id)
     updated_data = user.model_dump(exclude_unset=True) # partial update
     for key, value in updated_data.items():
         setattr(db_user, key, value)
@@ -55,8 +54,8 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
     return db_user
 
 # delete user
-def delete_user(db: Session, user_id: str):
-    db_user = get_user_by_id(db, user_id)
+async def delete_user(db: Session, user_id: str):
+    db_user = await get_user_by_id(db, user_id)
     db.delete(db_user)
     db.commit()
     # db.refresh(db_user)
@@ -66,8 +65,8 @@ def delete_user(db: Session, user_id: str):
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-def authenticate_user(db: Session, user: UserCreate):
-    member = get_user_by_email(db, user.email)
+async def authenticate_user(db: Session, user: UserCreate):
+    member = await get_user_by_email(db, user.email)
     if not member:
         return False
     if not verify_password(user.password, member.password):
@@ -104,7 +103,7 @@ async def refresh_access_token(db: Session, refresh_token: str):
         member = await get_user_by_id(db, user_id)
         if member is None:
             raise HTTPException(status_code=401, detail="Invalid refresh token")
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token_expires = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
         access_token =  create_access_token(
             data={"id": member.id, "email": member.email, "role": member.role},
             expires_delta=access_token_expires
@@ -114,7 +113,7 @@ async def refresh_access_token(db: Session, refresh_token: str):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
 # get current users info 
-def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
@@ -126,7 +125,7 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotate
         current_email: str = payload.get("email")
         if current_email is None:
             raise credentials_exception
-        user = get_user_by_email(db, current_email)
+        user = await get_user_by_email(db, current_email)
         if user is None:
             raise credentials_exception
         return user
